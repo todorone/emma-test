@@ -5,7 +5,7 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack'
-import HomeScreen from './HomeScreen'
+import ContactsScreen from './ContactsScreen'
 import { isIos } from './globalStyles'
 
 // === NAVIGATION ROUTES ===
@@ -23,8 +23,8 @@ export default function Routes() {
       >
         <MainStack.Screen
           options={{ title: 'Contacts' }}
-          name={Screens.CONTACTS_LIST}
-          component={HomeScreen}
+          name={Screens.CONTACTS}
+          component={ContactsScreen}
         />
       </MainStack.Navigator>
     </NavigationContainer>
@@ -48,5 +48,5 @@ const screenOptions: StackNavigationOptions = {
 }
 
 export enum Screens {
-  CONTACTS_LIST = 'CONTACTS_LIST',
+  CONTACTS = 'CONTACTS_SCREEN',
 }
