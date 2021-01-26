@@ -1,44 +1,48 @@
-import React, { forwardRef, RefObject } from 'react'
+import React, { FC, forwardRef, RefObject } from 'react'
 import { FlatList } from 'react-native-gesture-handler'
 import { Contact, store } from '../store'
 import { deviceHeight, deviceWidth, isIos } from '../globalStyles'
 import { Text, StyleSheet, View, ListRenderItem } from 'react-native'
+import { observer } from 'mobx-react-lite'
 
-interface Props {
-  avatarsRef: RefObject<FlatList<Contact>>
-}
-const ContactsScreenInfo = forwardRef<FlatList<Contact>, Props>(
-  ({ avatarsRef }, ref) => {
-    return (
-      <FlatList
-        style={styles.container}
-        // contentContainerStyle={styles.container}
-        ref={ref}
-        onScroll={({ nativeEvent }) => {
-          console.log(nativeEvent.contentOffset, avatarsRef !== undefined)
-          // infoRef.current?.scrollToOffset({
-          //   offset: nativeEvent.contentOffset.x * 4,
-          //   animated: false,
-          // })
-        }}
-        data={store.contacts}
-        keyExtractor={extractKey}
-        renderItem={renderItem}
-        scrollEventThrottle={16}
-        pagingEnabled
-        showsVerticalScrollIndicator={false}
-      />
-    )
-  },
-)
+type Props = { avatarsRef: RefObject<FlatList<Contact>> }
+const ContactsScreenInfo = forwardRef<FlatList<Contact>, Props>(({ avatarsRef }, ref) => {
+  return (
+    <FlatList
+      onLayout={({ nativeEvent }) => store.setInfoBlockHeight(nativeEvent.layout.height)}
+      ref={ref}
+      onScroll={({ nativeEvent }) => {
+        console.log(nativeEvent.contentOffset, avatarsRef !== undefined)
+        // infoRef.current?.scrollToOffset({
+        //   offset: nativeEvent.contentOffset.x * 4,
+        //   animated: false,
+        // })
+      }}
+      data={store.contacts}
+      keyExtractor={extractKey}
+      renderItem={renderItem}
+      scrollEventThrottle={16}
+      pagingEnabled
+      showsVerticalScrollIndicator={false}
+    />
+  )
+})
 
-const renderItem: ListRenderItem<Contact> = ({ item: contact }) => {
+export default ContactsScreenInfo
+
+const renderItem: ListRenderItem<Contact> = ({ item }) => <ListItem contact={item} />
+
+const extractKey = (contact) => contact.name
+
+const ListItem: FC<{ contact: Contact }> = observer(function ContactsScreenInfoListItem({
+  contact,
+}) {
   const [firstName, lastName] = contact.name.split(' ')
   return (
     <View
       style={{
         width: deviceWidth,
-        height: 400,
+        height: store.infoBlockHeight,
         paddingHorizontal: deviceWidth * 0.05,
       }}
     >
@@ -52,14 +56,9 @@ const renderItem: ListRenderItem<Contact> = ({ item: contact }) => {
       <Text style={styles.aboutText}>{contact.bio}</Text>
     </View>
   )
-}
-
-const extractKey = (contact) => contact.name
-
-export default ContactsScreenInfo
+})
 
 const styles = StyleSheet.create({
-  container: { width: deviceWidth, height: 400 },
   name: {
     fontWeight: '400',
     color: '#444',

@@ -6,40 +6,33 @@ import { Contact, store } from '../store'
 import { TouchableScale } from '../ui/TouchableScale'
 import { deviceWidth, isIos } from '../globalStyles'
 
-interface Props {
-  infoRef: RefObject<FlatList<Contact>>
-}
-const ContactsScreenAvatars = forwardRef<FlatList<Contact>, Props>(
-  ({ infoRef }, ref) => {
-    return (
-      <FlatList
-        horizontal
-        contentContainerStyle={styles.container}
-        ref={ref}
-        onScroll={({ nativeEvent }) => {
-          console.log(nativeEvent.contentOffset, infoRef !== undefined)
-          infoRef.current?.scrollToOffset({
-            offset: nativeEvent.contentOffset.x * 4,
-            animated: false,
-          })
-        }}
-        data={store.contacts}
-        keyExtractor={extractKey}
-        renderItem={renderItem}
-        scrollEventThrottle={16}
-        snapToOffsets={store.contacts.map(
-          (_i, index) =>
-            index *
-            (sharedStyles.AVATAR_WIDTH +
-              sharedStyles.AVATAR_HORIZONTAL_MARGIN * 2),
-        )}
-        snapToAlignment="center"
-        decelerationRate={isIos ? 0.01 : 0.9}
-        showsHorizontalScrollIndicator={false}
-      />
-    )
-  },
-)
+type Props = { infoRef: RefObject<FlatList<Contact>> }
+const ContactsScreenAvatars = forwardRef<FlatList<Contact>, Props>(({ infoRef }, ref) => {
+  return (
+    <FlatList
+      horizontal
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      ref={ref}
+      onScroll={({ nativeEvent }) => {
+        infoRef.current?.scrollToOffset({
+          offset:
+            (nativeEvent.contentOffset.x / sharedStyles.AVATAR_LIST_ITEM_WIDTH) *
+            store.infoBlockHeight,
+          animated: false,
+        })
+      }}
+      data={store.contacts}
+      keyExtractor={extractKey}
+      renderItem={renderItem}
+      scrollEventThrottle={16}
+      snapToOffsets={store.contacts.map((_i, index) => index * sharedStyles.AVATAR_LIST_ITEM_WIDTH)}
+      snapToAlignment="center"
+      decelerationRate={isIos ? 0.01 : 0.9}
+      showsHorizontalScrollIndicator={false}
+    />
+  )
+})
 
 export default ContactsScreenAvatars
 
@@ -63,15 +56,14 @@ const renderItem = ({ item: contact }) => {
   )
 }
 
-const extractKey = (contact) => contact.name
+const extractKey = (contact) => contact.id
 
 const styles = StyleSheet.create({
-  container: {
+  container: { flexGrow: 0 }, // When not mentioned explicitly, FlatList greedy grows the space
+  contentContainer: {
     paddingHorizontal:
-      (deviceWidth - sharedStyles.AVATAR_WIDTH) / 2 -
-      sharedStyles.AVATAR_HORIZONTAL_MARGIN,
-    paddingTop: 30,
-    paddingBottom: 15,
+      (deviceWidth - sharedStyles.AVATAR_WIDTH) / 2 - sharedStyles.AVATAR_HORIZONTAL_MARGIN,
+    paddingVertical: 30,
   },
   avatarImage: {
     width: sharedStyles.AVATAR_WIDTH - 10,

@@ -9,16 +9,9 @@ interface Props extends TouchableOpacityProps {
   scale?: number
   containerStyle?: ViewStyle
 }
+
 export const TouchableScale: FC<Props> = memo(
-  ({
-    style,
-    scale = 1.15,
-    containerStyle,
-    disabled,
-    onPress,
-    testID,
-    children,
-  }) => {
+  ({ style, scale = 1.15, containerStyle, disabled, onPress, testID, children }) => {
     const { current: scaleValue } = useRef(new Animated.Value(1))
 
     const onGesture = ({ nativeEvent }) => {
@@ -51,19 +44,12 @@ export const TouchableScale: FC<Props> = memo(
         enabled={!disabled}
         hitSlop={mediumHitSlop}
       >
-        <Animated.View
-          testID={testID}
-          style={[style, { transform: [{ scale: scaleValue }] }]}
-        >
+        <Animated.View testID={testID} style={[style, { transform: [{ scale: scaleValue }] }]}>
           {children}
         </Animated.View>
       </TapGestureHandler>
     )
 
-    return containerStyle ? (
-      <View style={containerStyle}>{content}</View>
-    ) : (
-      content
-    )
+    return containerStyle ? <View style={containerStyle}>{content}</View> : content
   },
 )
