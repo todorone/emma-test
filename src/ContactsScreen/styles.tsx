@@ -1,10 +1,4 @@
-import { StyleSheet } from 'react-native'
-
-const AVATAR_WIDTH = 64
-
-const styles = StyleSheet.create({})
-
 export default {
-  ...styles,
-  AVATAR_WIDTH,
+  AVATAR_WIDTH: 74,
+  AVATAR_HORIZONTAL_MARGIN: 6,
 }

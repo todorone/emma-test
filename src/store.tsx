@@ -1,4 +1,7 @@
 // === APPLICATION STATE ===
+const bio =
+  'One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What\'s happened to me?" he thought. It wasn\'t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.'
+
 class Store {
   // Fetched from https://uifaces.co/
   contacts: Contact[] = [
@@ -34,7 +37,7 @@ class Store {
       bio,
     },
     {
-      name: 'Manuel Osorio(MKD)',
+      name: 'Manuel Osorio',
       email: 'manuel.osorio(mkd)@gmail.com',
       position: 'Executive Assistant',
       photo: 'https://uifaces.co/our-content/donated/XPz-t8Wr.jpg',
@@ -169,6 +172,3 @@ export interface Contact {
   photo: string
   bio: string
 }
-
-const bio =
-  'One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What\'s happened to me?" he thought. It wasn\'t a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls.'
