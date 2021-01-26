@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React, { createRef } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 
@@ -7,7 +7,7 @@ export default function HomeScreen() {
   const verticalScrollViewRef = createRef<ScrollView>()
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <ScrollView
         horizontal
         style={{ marginVertical: 30 }}
@@ -29,10 +29,10 @@ export default function HomeScreen() {
           <View
             key={index}
             style={{
-              width: 60,
-              height: 60,
-              backgroundColor: 'blue',
-              borderRadius: 30,
+              width: AVATAR_WIDTH,
+              height: AVATAR_WIDTH,
+              backgroundColor: 'lightgrey',
+              borderRadius: AVATAR_WIDTH / 2,
               marginHorizontal: 10,
             }}
           />
@@ -71,3 +71,9 @@ export default function HomeScreen() {
 }
 
 const items = Array(20).fill('')
+
+const AVATAR_WIDTH = 64
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+})
