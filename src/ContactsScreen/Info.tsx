@@ -1,9 +1,10 @@
 import React, { FC, forwardRef, RefObject } from 'react'
-import { FlatList } from 'react-native-gesture-handler'
-import { Contact, store } from '../store'
-import { deviceHeight, deviceWidth, isIos } from '../globalStyles'
 import { Text, StyleSheet, View, ListRenderItem } from 'react-native'
 import { observer } from 'mobx-react-lite'
+import { FlatList } from 'react-native-gesture-handler'
+
+import { Contact, store } from '../store'
+import { deviceHeight, deviceWidth, isIos, SMALL_DEVICE } from '../globalStyles'
 import sharedStyles from './styles'
 
 type Props = { avatarsRef: RefObject<FlatList<Contact>> }
@@ -79,19 +80,19 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: '400',
     color: '#444',
-    fontSize: 24,
+    fontSize: 23,
     alignSelf: 'center',
-    marginTop: deviceHeight * 0.08,
-    marginBottom: 5,
+    marginTop: deviceHeight * (SMALL_DEVICE ? 0.05 : 0.09),
+    marginBottom: isIos ? 5 : 4,
   },
   position: {
     fontWeight: '300',
     color: '#666',
     fontSize: 16,
     alignSelf: 'center',
-    marginBottom: 32,
+    marginBottom: deviceHeight * 0.044,
   },
   firstName: { fontWeight: isIos ? '600' : '700', color: '#222' },
-  aboutTitle: { fontSize: 16, fontWeight: '700', marginBottom: 5 },
-  aboutText: { fontSize: 16, color: '#888', lineHeight: 19.5 },
+  aboutTitle: { fontSize: 16, fontWeight: '700', marginBottom: 4 },
+  aboutText: { fontSize: 16, color: '#919191', lineHeight: 19.5 },
 })

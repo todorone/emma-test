@@ -9,7 +9,6 @@ interface Props extends TouchableOpacityProps {
   scale?: number
   containerStyle?: ViewStyle
 }
-
 export const TouchableScale: FC<Props> = memo(
   ({ style, scale = 1.15, containerStyle, disabled, onPress, testID, children }) => {
     const { current: scaleValue } = useRef(new Animated.Value(1))

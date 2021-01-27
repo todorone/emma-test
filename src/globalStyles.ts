@@ -11,7 +11,7 @@ export const deviceHeight = Dimensions.get('window').height
 export const deviceWidth = Dimensions.get('window').width
 export const safeBottomInset = initialWindowMetrics?.insets.bottom ?? 0
 
-export const SMALL_DEVICE = deviceHeight < 600
+export const SMALL_DEVICE = deviceHeight < 700
 
 // Color palette
 export const WHITE = '#fff'

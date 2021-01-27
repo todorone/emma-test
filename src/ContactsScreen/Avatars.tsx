@@ -1,11 +1,12 @@
 import React, { FC, forwardRef, RefObject } from 'react'
 import { Image, ListRenderItem, StyleSheet } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import { observer } from 'mobx-react-lite'
+
 import sharedStyles from './styles'
 import { Contact, store } from '../store'
 import { TouchableScale } from '../ui/TouchableScale'
 import { deviceWidth, isIos, WHITE } from '../globalStyles'
-import { observer } from 'mobx-react-lite'
 
 type Props = { infoRef: RefObject<FlatList<Contact>> }
 const ContactsScreenAvatars = forwardRef<FlatList<Contact>, Props>(({ infoRef }, ref) => {
@@ -56,6 +57,8 @@ const ContactsScreenAvatars = forwardRef<FlatList<Contact>, Props>(({ infoRef },
   )
 })
 
+const extractKey = (contact) => contact.id
+
 export default ContactsScreenAvatars
 
 const ListItem: FC<{ contact: Contact; listRef: RefObject<FlatList<Contact>> }> = observer(
@@ -86,8 +89,6 @@ const ListItem: FC<{ contact: Contact; listRef: RefObject<FlatList<Contact>> }> 
     )
   },
 )
-
-const extractKey = (contact) => contact.id
 
 const styles = StyleSheet.create({
   container: { flexGrow: 0 }, // When not mentioned explicitly, FlatList greedy grows the space

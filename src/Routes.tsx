@@ -1,10 +1,7 @@
 import React from 'react'
 import { enableScreens } from 'react-native-screens'
 import { NavigationContainer } from '@react-navigation/native'
-import {
-  createStackNavigator,
-  StackNavigationOptions,
-} from '@react-navigation/stack'
+import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack'
 import ContactsScreen from './ContactsScreen'
 import { isIos } from './globalStyles'
 
@@ -42,7 +39,7 @@ const screenOptions: StackNavigationOptions = {
   headerTitleStyle: {
     fontSize: isIos ? 19 : 20,
     fontWeight: '700',
-    bottom: isIos ? 4 : 2,
+    bottom: isIos ? 2 : 1,
   },
   cardStyle: { backgroundColor: '#fff' },
 }
