@@ -4,6 +4,7 @@ import { Contact, store } from '../store'
 import { deviceHeight, deviceWidth, isIos } from '../globalStyles'
 import { Text, StyleSheet, View, ListRenderItem } from 'react-native'
 import { observer } from 'mobx-react-lite'
+import sharedStyles from './styles'
 
 type Props = { avatarsRef: RefObject<FlatList<Contact>> }
 const ContactsScreenInfo = forwardRef<FlatList<Contact>, Props>(({ avatarsRef }, ref) => {
@@ -11,12 +12,28 @@ const ContactsScreenInfo = forwardRef<FlatList<Contact>, Props>(({ avatarsRef },
     <FlatList
       onLayout={({ nativeEvent }) => store.setInfoBlockHeight(nativeEvent.layout.height)}
       ref={ref}
+      onScrollBeginDrag={() => {
+        store.setIsInfoGestureInProgress(true)
+      }}
+      onScrollEndDrag={({ nativeEvent }) => {
+        if (nativeEvent.velocity?.y === 0) {
+          store.setIsInfoGestureInProgress(false)
+        }
+      }}
+      onMomentumScrollEnd={() => {
+        if (store.isInfoGestureInProgress) {
+          store.setIsInfoGestureInProgress(false)
+        }
+      }}
       onScroll={({ nativeEvent }) => {
-        console.log(nativeEvent.contentOffset, avatarsRef !== undefined)
-        // infoRef.current?.scrollToOffset({
-        //   offset: nativeEvent.contentOffset.x * 4,
-        //   animated: false,
-        // })
+        if (!store.isAvatarsGestureInProgress) {
+          const activeItemIndex = nativeEvent.contentOffset.y / store.infoBlockHeight
+
+          avatarsRef.current?.scrollToOffset({
+            offset: activeItemIndex * sharedStyles.AVATAR_LIST_ITEM_WIDTH,
+            animated: false,
+          })
+        }
       }}
       data={store.contacts}
       keyExtractor={extractKey}
